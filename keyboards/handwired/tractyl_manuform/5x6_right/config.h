@@ -25,8 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* key matrix size */
 // Rows are doubled-up
-#define MATRIX_ROWS                 12
-#define MATRIX_COLS                 6
+#define MATRIX_ROWS                 8
+#define MATRIX_COLS                 5
 
 #define DIODE_DIRECTION             COL2ROW
 
@@ -36,12 +36,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Bootmagic Lite key configuration */
 #define BOOTMAGIC_LITE_ROW          0
 #define BOOTMAGIC_LITE_COLUMN       0
-#define BOOTMAGIC_LITE_ROW_RIGHT    6
-#define BOOTMAGIC_LITE_COLUMN_RIGHT 5
+#define BOOTMAGIC_LITE_ROW_RIGHT    0
+#define BOOTMAGIC_LITE_COLUMN_RIGHT 1
 
 #define DYNAMIC_KEYMAP_LAYER_COUNT  16
 #define LAYER_STATE_16BIT
 
+#define TAPPING_TERM 500
 
 /* disable action features */
 //#define NO_ACTION_LAYER

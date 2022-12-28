@@ -38,6 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define POINTING_DEVICE_TASK_THROTTLE_MS 1
 
 #define POINTING_DEVICE_ROTATION_270
-#define CHARYBDIS_MINIMUM_DEFAULT_DPI 1500
+#define CHARYBDIS_MINIMUM_DEFAULT_DPI 1250
 
 #define SPLIT_TRANSACTION_IDS_KB RPC_ID_KB_CONFIG_SYNC

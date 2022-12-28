@@ -22,16 +22,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* key matrix size */
 // Rows are doubled-up
-#define MATRIX_ROWS 12
-#define MATRIX_COLS 6
+#define MATRIX_ROWS                 8
+#define MATRIX_COLS                 5
 
 // wiring of each half
 // left
-#define MATRIX_COL_PINS { D4, C6, D7, E6, B4, B5 }
-#define MATRIX_ROW_PINS { F6, F7, B1, B3, B2, B6 }
+#define MATRIX_COL_PINS { D4, C6, D7, E6, B4 }
+#define MATRIX_ROW_PINS { F6, F7, B1, B3 }
 // right
-#define MATRIX_COL_PINS_RIGHT { D6, D7, B4, D3, C6, C7 }
-#define MATRIX_ROW_PINS_RIGHT { D4, B7, F7, B6, B5, F6 }
+#define MATRIX_COL_PINS_RIGHT { D6, D7, B4, D3, C6 }
+#define MATRIX_ROW_PINS_RIGHT { D4, B7, F7, B6 }
 
 #define DIODE_DIRECTION COL2ROW
 
