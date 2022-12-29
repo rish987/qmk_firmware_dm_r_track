@@ -26,7 +26,7 @@ enum custom_layers {
 #define RAISE MO(_RAISE)
 #define LOWER MO(_LOWER)
 #define ARROW MO(_ARROW)
-#define CCTL  LCTL_T(KC_C)
+#define ESCCTL  RCTL_T(KC_ESC)
 #define BCTL  LCTL_T(KC_B)
 #define CTLTB LCTL_T(KC_TAB)
 #define CTLSTB LCTL(LSFT(KC_TAB))
@@ -36,12 +36,13 @@ enum custom_layers {
 #define COMMCTL  RCTL_T(KC_COMM)
 #define DOTCTL  RCTL_T(KC_DOT)
 #define RSFTESC  RSFT_T(KC_ESC)
+#define RSFTBSPC  RSFT_T(KC_BSPC)
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_5x6_right(
      KC_Q   , KC_W  , KC_E     , KC_R  , KC_T  ,                         KC_Y  , KC_U     , KC_I     , KC_O  , KC_P ,
      KC_A   , KC_S  , KC_D     , KC_F  , KC_G  ,                         KC_H  , KC_J     , KC_K     , KC_L  , KC_N ,
-     KC_RCTL, KC_X  , KC_C     , KC_V  ,                                         KC_M     , KC_B     , KC_Z  , KC_RCTL ,
-     KC_LSFT, RAISE , KC_SPACE , LOWER ,_______,                                 KC_BSPC  , KC_ENTER   ,       RSFTESC
+     ESCCTL , KC_X  , KC_C     , KC_V  ,                                         KC_M     , KC_B     , KC_Z  , ESCCTL ,
+     KC_LSFT, RAISE , KC_SPACE , LOWER ,_______,                                 _______  , KC_ENTER   ,       RSFTBSPC
   ),
 
   [_LOWER] = LAYOUT_5x6_right(
@@ -51,9 +52,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______,_______,_______,_______,_______,                                _______,_______,        _______
   ),
   [_RAISE] = LAYOUT_5x6_right(
-     _______,_______,_______,_______,_______,                        _______,_______,KC_TAB ,KC_LCBR,KC_RCBR,
+     _______,_______,_______,_______,_______,                        _______,KC_SLSH,KC_TAB ,KC_LCBR,KC_RCBR,
      _______,_______,_______,_______,_______,                        KC_GRV ,KC_EQL ,KC_QUOT,KC_BSLS,KC_SCLN,
-     _______,_______,_______,_______,                                        KC_MINS,KC_COMM,KC_DOT ,KC_SLSH,
+     _______,_______,_______,_______,                                        KC_MINS,KC_COMM,KC_DOT ,_______,
      KC_RGUI ,_______,KC_RALT ,_______,_______,                              _______,ARROW  ,_______
   ),
   [_ARROW] = LAYOUT_5x6_right(
