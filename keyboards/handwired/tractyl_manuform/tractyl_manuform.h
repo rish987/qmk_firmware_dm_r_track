@@ -26,6 +26,8 @@
 #    include "4x6_right.h"
 #endif
 
+#define _MOUSE 15
+
 enum charybdis_keycodes {
 #        ifdef VIA_ENABLE
     POINTER_DEFAULT_DPI_FORWARD = USER00,

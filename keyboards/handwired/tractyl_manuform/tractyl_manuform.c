@@ -560,12 +560,14 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 memset(undo_buffer_x, 0, sizeof(undo_buffer_x));
                 memset(undo_buffer_y, 0, sizeof(undo_buffer_y));
                 activation_timer = 0;
+                layer_on(_MOUSE);
             }
             else {
                 // disable when released
                 charybdis_set_enabled(false);
                 undoing = true;
                 undo_buffer_pos = UNDO_BUFFER_SIZE - 1;
+                layer_off(_MOUSE);
             }
             break;
         case POINTER_DEFAULT_DPI_REVERSE:
