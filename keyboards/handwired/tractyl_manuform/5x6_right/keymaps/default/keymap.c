@@ -52,14 +52,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_RAISE] = LAYOUT_5x6_right(
      KC_QUES,_______,KC_PLUS,KC_EQL ,KC_PIPE,                       KC_TILD,_______,KC_TAB ,_______,KC_COLN,
-     KC_SLSH,KC_LCBR,KC_RCBR,KC_UNDS,KC_BSLS,                       KC_GRV ,KC_DQT ,KC_COMM,KC_DOT ,KC_SCLN,
-     _______,KC_LBRC,KC_RBRC,KC_MINS,                                       KC_QUOT,KC_LT  ,KC_GT  ,_______,
+     KC_SLSH,KC_LCBR,KC_UNDS,KC_RCBR,KC_BSLS,                       KC_GRV ,KC_DQT ,KC_COMM,KC_DOT ,KC_SCLN,
+     _______,KC_LBRC,KC_MINS,KC_RBRC,                                       KC_QUOT,KC_LT  ,KC_GT  ,_______,
      _______ ,_______,_______ ,_______,_______,                      _______,_______,_______,_______
   ),
   [_MOUSE] = LAYOUT_5x6_right(
      _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-     _______,_______,_______,_______,_______,                        _______,DRGSCRL,_______,_______,_______,
-     _______,_______,_______,_______,                                        KC_BTN1,KC_BTN2,_______,_______,
+     _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+     _______,_______,_______,_______,                                        KC_BTN1,KC_BTN2,DRGSCRL,MLOCK  ,
      _______,_______,_______,_______,_______,                        _______,_______,_______,        _______ 
   ),
   [_ARROW] = LAYOUT_5x6_right(

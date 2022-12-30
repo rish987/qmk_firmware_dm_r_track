@@ -56,7 +56,7 @@
 #    endif  // CHARYBDIS_CARRET_BUFFER
 
 #    ifndef CHARYBDIS_POINTER_ACCELERATION_FACTOR
-#        define CHARYBDIS_POINTER_ACCELERATION_FACTOR 24
+#        define CHARYBDIS_POINTER_ACCELERATION_FACTOR 29
 #    endif  // !CHARYBDIS_POINTER_ACCELERATION_FACTOR
 
 // default keycodes for the custom mode
@@ -76,11 +76,15 @@
 #        define CUSTOM_FN_DOWN KC_AUDIO_VOL_DOWN
 #    endif  // CUSTOM_FN_DOWN
 
+// dragscroll directions
+enum dragscroll_dir { UNSET, UP, DOWN, LEFT, RIGHT };
+
 typedef union {
     uint8_t raw;
     struct {
         uint8_t pointer_default_dpi : 4;  // 16 steps available.
         uint8_t pointer_sniping_dpi : 2;  // 4 steps available.
+        enum dragscroll_dir drag_dir;
 		bool    is_enabled : 1;
         bool    is_dragscroll_enabled : 1;
         bool    is_sniping_enabled : 1;
@@ -430,11 +434,19 @@ static void pointing_device_task_charybdis(report_mouse_t* mouse_report) {
         mouse_report->x = 0;
         mouse_report->y = 0;
         if (abs(move_buffer_x) > local_dragscroll_buffer_size) {
-            mouse_report->h = move_buffer_x > 0 ? 1 : -1;
+            enum dragscroll_dir dir = move_buffer_x > 0 ? RIGHT : LEFT;
+            if (g_charybdis_config.drag_dir == UNSET) {
+                g_charybdis_config.drag_dir = dir;
+            }
+            if (dir == g_charybdis_config.drag_dir) mouse_report->h = move_buffer_x > 0 ? 1 : -1;
             move_buffer_x = 0;
         }
         if (abs(move_buffer_y) > local_dragscroll_buffer_size) {
-            mouse_report->v = move_buffer_y > 0 ? 1 : -1;
+            enum dragscroll_dir dir = move_buffer_y > 0 ? UP : DOWN;
+            if (g_charybdis_config.drag_dir == UNSET) {
+                g_charybdis_config.drag_dir = dir;
+            }
+            if (dir == g_charybdis_config.drag_dir) mouse_report->v = move_buffer_y > 0 ? 1 : -1;
             move_buffer_y = 0;
         }
 	} else if (g_charybdis_config.is_carret_enabled) {
@@ -570,6 +582,16 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 layer_off(_MOUSE);
             }
             break;
+        case MOUSE_LOCK:
+            if (record->event.pressed) {
+                // disable when pressed
+                charybdis_set_enabled(false);
+            }
+            else {
+                // enable when released
+                charybdis_set_enabled(true);
+            }
+            break;
         case POINTER_DEFAULT_DPI_REVERSE:
             if (record->event.pressed) {
                 // Step forward if shifted, backward otherwise.
@@ -597,6 +619,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             }
             break;
         case DRAGSCROLL_MODE:
+            if (record->event.pressed) g_charybdis_config.drag_dir = UNSET;
             charybdis_set_pointer_dragscroll_enabled(record->event.pressed);
             break;
         case DRAGSCROLL_MODE_TOGGLE:
