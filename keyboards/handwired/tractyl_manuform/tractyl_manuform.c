@@ -86,6 +86,7 @@ typedef union {
         uint8_t pointer_sniping_dpi : 2;  // 4 steps available.
         enum dragscroll_dir drag_dir;
 		bool    is_enabled : 1;
+		bool    is_trackpoint_enabled : 1;
         bool    is_dragscroll_enabled : 1;
         bool    is_sniping_enabled : 1;
 		bool    is_carret_enabled : 1;
@@ -104,6 +105,9 @@ static bool undoing;
 static int8_t undo_buffer_x[UNDO_BUFFER_SIZE] = {0};
 static int8_t undo_buffer_y[UNDO_BUFFER_SIZE] = {0};
 static uint16_t undo_buffer_pos;
+
+static int16_t trackpoint_buffer_x = 0;
+static int16_t trackpoint_buffer_y = 0;
 
 static charybdis_config_t g_charybdis_config = {0};
 
@@ -177,6 +181,10 @@ static void step_pointer_sniping_dpi(charybdis_config_t* config, bool forward) {
 void charybdis_set_enabled(bool enable) {
     g_charybdis_config.is_enabled = enable;
     maybe_update_pointing_device_cpi(&g_charybdis_config);
+}
+
+void charybdis_set_trackpoint(bool enable) {
+    g_charybdis_config.is_trackpoint_enabled = enable;
 }
 
 uint16_t charybdis_get_pointer_default_dpi(void) { return get_pointer_default_dpi(&g_charybdis_config); }
@@ -475,11 +483,25 @@ static void pointing_device_task_charybdis(report_mouse_t* mouse_report) {
 }
 }
 
+#define TRACKPOINT_MAX_SPEED (INT8_MAX / 2) 
+#define TRACKPOINT_MIN_SPEED (INT8_MIN / 2) 
+
 
 report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
     if (g_charybdis_config.is_enabled && activation_timer == ACTIVATION_DELAY) {
         pointing_device_task_charybdis(&mouse_report);
         mouse_report = pointing_device_task_user(mouse_report);
+
+        if (g_charybdis_config.is_trackpoint_enabled) {
+            trackpoint_buffer_x += mouse_report.x;
+            trackpoint_buffer_y += mouse_report.y;
+
+            int8_t y = (int8_t) (trackpoint_buffer_y > TRACKPOINT_MAX_SPEED ? TRACKPOINT_MAX_SPEED : (trackpoint_buffer_y < TRACKPOINT_MIN_SPEED ? TRACKPOINT_MIN_SPEED : trackpoint_buffer_y));
+            int8_t x = (int8_t) (trackpoint_buffer_x > TRACKPOINT_MAX_SPEED ? TRACKPOINT_MAX_SPEED : (trackpoint_buffer_x < TRACKPOINT_MIN_SPEED ? TRACKPOINT_MIN_SPEED : trackpoint_buffer_x));
+
+            mouse_report.x = (x / 3);
+            mouse_report.y = (y / 3);
+        }
 
         undo_buffer_x[undo_buffer_pos] = mouse_report.x;
         undo_buffer_y[undo_buffer_pos] = mouse_report.y;
@@ -580,6 +602,18 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
                 undoing = true;
                 undo_buffer_pos = UNDO_BUFFER_SIZE - 1;
                 layer_off(_MOUSE);
+            }
+            break;
+        case TRACKPOINT_MODE:
+            if (record->event.pressed) {
+                // enable when pressed
+                charybdis_set_trackpoint(true);
+                trackpoint_buffer_x = 0;
+                trackpoint_buffer_y = 0;
+            }
+            else {
+                // disable when released
+                charybdis_set_trackpoint(false);
             }
             break;
         case MOUSE_LOCK:

@@ -36,6 +36,7 @@ enum charybdis_keycodes {
 #        endif  // VIA_ENABLE
     TRACKSWITCH,
     MOUSE_LOCK,
+    TRACKPOINT_MODE,
     POINTER_DEFAULT_DPI_REVERSE,
     POINTER_SNIPING_DPI_FORWARD,
     POINTER_SNIPING_DPI_REVERSE,
@@ -59,6 +60,7 @@ enum charybdis_keycodes {
 #        define DPI_RMOD POINTER_DEFAULT_DPI_REVERSE
 #        define S_D_MOD POINTER_SNIPING_DPI_FORWARD
 #        define S_D_RMOD POINTER_SNIPING_DPI_REVERSE
+#        define TRKPNT TRACKPOINT_MODE
 #        define SNIPING SNIPING_MODE
 #        define SNP_TOG SNIPING_MODE_TOGGLE
 #        define DRGSCRL DRAGSCROLL_MODE
