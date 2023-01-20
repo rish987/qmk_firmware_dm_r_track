@@ -27,6 +27,7 @@ enum custom_layers {
 #define LOWER MO(_LOWER)
 #define ARROW MO(_ARROW)
 #define ESCCTL  RCTL_T(KC_ESC)
+#define BSPCCTL  RCTL_T(KC_BSPC)
 #define BCTL  LCTL_T(KC_B)
 #define CTLTB LCTL_T(KC_TAB)
 #define CTLSTB LCTL(LSFT(KC_TAB))
@@ -41,13 +42,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_5x6_right(
      KC_Q   , KC_W  , KC_E     , KC_R  , KC_T  ,                         KC_Y   , KC_U     , KC_I     , KC_O  , KC_P ,
      KC_A   , KC_S  , KC_D     , KC_F  , KC_G  ,                         KC_H   , KC_J     , KC_K     , KC_L  , KC_N ,
-     ESCCTL , KC_X  , KC_C     , KC_V  ,                                          KC_M     , KC_B     , KC_Z  , ESCCTL ,
-     KC_LSFT, RAISE , KC_SPACE , ARROW , LOWER ,                         TRKSWCH, _______  , KC_ENTER   ,       RSFTBSPC
+     BSPCCTL, KC_X  , KC_C     , KC_V  ,                                          KC_M     , KC_B     , KC_Z  , ESCCTL ,
+     RAISE  , LOWER , KC_SPACE , _______ , ARROW ,                         TRKSWCH, _______, KC_RSHIFT, KC_ENTER
   ),
   [_LOWER] = LAYOUT_5x6_right(
      KC_EXLM,KC_AT  ,KC_HASH,KC_DLR ,KC_PERC,                        KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,
      KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        KC_6   ,KC_7   ,KC_8   ,KC_9   ,KC_0   ,
-     _______,_______,_______,_______,                                        _______,_______,_______,_______,
+     _______,_______,KC_PLUS,KC_EQL ,                                        _______,KC_COMM,KC_DOT ,_______,
      _______,_______,_______,_______,_______,                        _______,_______,_______,        _______
   ),
   [_RAISE] = LAYOUT_5x6_right(
