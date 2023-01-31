@@ -26,53 +26,45 @@ enum custom_layers {
 #define RAISE MO(_RAISE)
 #define LOWER MO(_LOWER)
 #define ARROW MO(_ARROW)
+
 #define ESCCTL  RCTL_T(KC_ESC)
 #define BSPCCTL  RCTL_T(KC_BSPC)
-#define BCTL  LCTL_T(KC_B)
-#define CTLTB LCTL_T(KC_TAB)
-#define CTLSTB LCTL(LSFT(KC_TAB))
-#define SPCSFT  LSFT_T(KC_SPC)
-#define ENTSFT  RSFT_T(KC_ENT)
-#define ESCALT  RALT_T(KC_ESC)
-#define COMMCTL  RCTL_T(KC_COMM)
-#define DOTCTL  RCTL_T(KC_DOT)
-#define RSFTESC  RSFT_T(KC_ESC)
-#define RSFTBSPC  RSFT_T(KC_BSPC)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_5x6_right(
-     KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T  ,                         KC_Y   ,KC_U   ,KC_I     ,KC_O   , KC_P   ,
-     KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G  ,                         KC_H   ,KC_J   ,KC_K     ,KC_L   , KC_N   ,
-     BSPCCTL,KC_X   ,KC_C   ,KC_V   ,                                        KC_M   ,KC_B     ,KC_Z   , ESCCTL ,
-     RAISE  ,LOWER  ,KC_SPC ,_______,ARROW ,                         TRKSWCH,        KC_RSHIFT,KC_ENT
+     KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T  ,                         KC_Y   ,KC_U   ,KC_I   ,KC_O   , KC_P   ,
+     KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G  ,                         KC_H   ,KC_J   ,KC_K   ,KC_L   , KC_N   ,
+     BSPCCTL,KC_X   ,KC_C   ,KC_V   ,                                TRKSWCH,KC_M   ,KC_B   ,KC_Z   , ESCCTL ,
+     RAISE  ,ARROW  ,KC_SPC ,_______,LOWER ,                                 KC_RSFT,KC_ENT
   ),
   [_LOWER] = LAYOUT_5x6_right(
-     KC_EXLM,KC_AT  ,KC_HASH,KC_DLR ,KC_PERC,                        KC_CIRC,KC_AMPR,KC_ASTR  ,KC_LPRN,KC_RPRN,
-     KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        KC_6   ,KC_7   ,KC_8     ,KC_9   ,KC_0   ,
-     _______,_______,KC_PLUS,KC_EQL ,                                        _______,KC_COMM  ,KC_DOT ,_______,
-     _______,_______,_______,_______,_______,                        _______,        _______  ,        _______
+     KC_EXLM,KC_AT  ,KC_HASH,KC_DLR ,KC_PERC,                        KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,
+     KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        KC_6   ,KC_7   ,KC_8   ,KC_9   ,KC_0   ,
+     _______,_______,KC_PLUS,KC_EQL ,                                _______,_______,KC_COMM,KC_DOT ,_______,
+     _______,_______,_______,_______,_______,                                _______,_______
   ),
   [_RAISE] = LAYOUT_5x6_right(
-     KC_QUES,_______,KC_PLUS,KC_EQL ,KC_PIPE,                       KC_TILD,_______,KC_TAB ,_______,KC_COLN,
-     KC_SLSH,KC_LCBR,KC_UNDS,KC_RCBR,KC_BSLS,                       KC_GRV ,KC_DQT ,KC_COMM,KC_DOT ,KC_SCLN,
-     _______,KC_LBRC,KC_MINS,KC_RBRC,                                       KC_QUOT,KC_LT  ,KC_GT  ,_______,
-     _______ ,_______,_______ ,_______,_______,                      _______,        _______,_______
+     KC_QUES,_______,KC_PLUS,KC_EQL ,KC_PIPE,                        KC_TILD,_______,KC_TAB  ,_______,KC_COLN,
+     KC_SLSH,KC_LCBR,KC_UNDS,KC_RCBR,KC_BSLS,                        KC_GRV ,KC_QUOT,KC_COMM ,KC_DOT ,KC_SCLN,
+     _______,KC_LBRC,KC_MINS,KC_RBRC,                                _______,KC_DQT ,KC_LT   ,KC_GT  ,_______,
+     _______,_______,_______,_______,_______,                                _______,_______
   ),
   [_MOUSE] = LAYOUT_5x6_right(
      _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-     _______,_______,_______,_______,_______,                        _______,MLOCK  ,_______,_______,_______,
-     _______,_______,_______,_______,                                        KC_BTN1,KC_BTN2,DRGSCRL,TRKPNT ,
-     _______,_______,_______,_______,_______,                        _______,        _______,        _______ 
+     _______,_______,_______,_______,_______,                        _______,KC_BTN1,KC_BTN2,MLOCK  ,_______,
+     _______,_______,_______,_______,                                _______,_______,_______,DRGSCRL,TRKPNT ,
+     _______,_______,KC_LSFT,_______,_______,                                _______,_______ 
   ),
   [_ARROW] = LAYOUT_5x6_right(
      KC_F1  ,KC_F2  ,KC_F3  ,KC_F4  ,KC_F5  ,                        KC_F6  ,KC_F7  ,KC_F8  ,KC_F9  ,KC_F10 ,
      _______,_______,_______,_______,_______,                        KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,
-     _______,_______,_______,_______,                                        _______,KC_F11 ,KC_F12 ,_______,
-     _______,_______,_______,_______,_______,                        _______,        KC_RGUI,        KC_RALT 
+     _______,_______,_______,_______,                                _______,_______,KC_F11 ,KC_F12 ,_______,
+     _______,_______,_______,_______,_______,                                KC_RGUI,KC_RALT 
   ),
-  //[_ARROW] = LAYOUT_5x6_right(
+  //[_LAYER] = LAYOUT_5x6_right(
   //   _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
   //   _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-  //   _______,_______,_______,_______,                                        _______,_______,_______,_______,
-  //   _______,_______,_______,_______,_______,                        _______,_______,_______,        _______ 
+  //   _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
+  //   _______,_______,_______,_______,_______,                                _______,_______                 
   //),
 };
