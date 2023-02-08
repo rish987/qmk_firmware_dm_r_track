@@ -496,11 +496,15 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
             trackpoint_buffer_x += mouse_report.x;
             trackpoint_buffer_y += mouse_report.y;
 
-            int8_t y = (int8_t) (trackpoint_buffer_y > TRACKPOINT_MAX_SPEED ? TRACKPOINT_MAX_SPEED : (trackpoint_buffer_y < TRACKPOINT_MIN_SPEED ? TRACKPOINT_MIN_SPEED : trackpoint_buffer_y));
-            int8_t x = (int8_t) (trackpoint_buffer_x > TRACKPOINT_MAX_SPEED ? TRACKPOINT_MAX_SPEED : (trackpoint_buffer_x < TRACKPOINT_MIN_SPEED ? TRACKPOINT_MIN_SPEED : trackpoint_buffer_x));
+            int16_t x16 = trackpoint_buffer_x / 7;
+            int16_t y16 = trackpoint_buffer_y / 7;
+            int8_t x = (int8_t) (x16 > TRACKPOINT_MAX_SPEED ? TRACKPOINT_MAX_SPEED : (x16 < TRACKPOINT_MIN_SPEED ? TRACKPOINT_MIN_SPEED : x16));
+            int8_t y = (int8_t) (y16 > TRACKPOINT_MAX_SPEED ? TRACKPOINT_MAX_SPEED : (y16 < TRACKPOINT_MIN_SPEED ? TRACKPOINT_MIN_SPEED : y16));
 
-            mouse_report.x = (x / 3);
-            mouse_report.y = (y / 3);
+            mouse_report.x = x;
+            mouse_report.y = y;
+            //mouse_report.x = x * ((x / TRACKPOINT_MAX_SPEED) ^ 2) / 5;
+            //mouse_report.y = y * ((y / TRACKPOINT_MAX_SPEED) ^ 2) / 5;
         }
 
         undo_buffer_x[undo_buffer_pos] = mouse_report.x;
