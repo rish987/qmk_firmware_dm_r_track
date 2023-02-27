@@ -486,6 +486,9 @@ static void pointing_device_task_charybdis(report_mouse_t* mouse_report) {
 #define TRACKPOINT_MAX_SPEED (INT8_MAX / 2) 
 #define TRACKPOINT_MIN_SPEED (INT8_MIN / 2) 
 
+// ignore this many cycles when in trackpoint mode; this is helpful to slow down the cursor when the refresh rate is too high
+#define TRACKPOINT_REFRESH_INTERVAl 15;
+static int8_t trackpoint_refresh_counter = 0;
 
 report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
     if (g_charybdis_config.is_enabled && activation_timer == ACTIVATION_DELAY) {
@@ -501,8 +504,17 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
             int8_t x = (int8_t) (x16 > TRACKPOINT_MAX_SPEED ? TRACKPOINT_MAX_SPEED : (x16 < TRACKPOINT_MIN_SPEED ? TRACKPOINT_MIN_SPEED : x16));
             int8_t y = (int8_t) (y16 > TRACKPOINT_MAX_SPEED ? TRACKPOINT_MAX_SPEED : (y16 < TRACKPOINT_MIN_SPEED ? TRACKPOINT_MIN_SPEED : y16));
 
-            mouse_report.x = x;
-            mouse_report.y = y;
+            if (trackpoint_refresh_counter == 0) {
+                mouse_report.x = x;
+                mouse_report.y = y;
+            }
+            else {
+                mouse_report.x = 0;
+                mouse_report.y = 0;
+            }
+
+            trackpoint_refresh_counter = (trackpoint_refresh_counter + 1) % TRACKPOINT_REFRESH_INTERVAl;
+
             //mouse_report.x = x * ((x / TRACKPOINT_MAX_SPEED) ^ 2) / 5;
             //mouse_report.y = y * ((y / TRACKPOINT_MAX_SPEED) ^ 2) / 5;
         }
