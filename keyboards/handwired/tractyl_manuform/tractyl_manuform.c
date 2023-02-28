@@ -76,6 +76,14 @@
 #        define CUSTOM_FN_DOWN KC_AUDIO_VOL_DOWN
 #    endif  // CUSTOM_FN_DOWN
 
+#    ifndef TRACKPOINT_REFRESH_INTERVAL
+#        define TRACKPOINT_REFRESH_INTERVAL 1
+#    endif  // TRACKPOINT_REFRESH_INTERVAL
+
+#    ifndef ACTIVATION_DELAY
+#        define ACTIVATION_DELAY 100
+#    endif  // ACTIVATION_DELAY
+
 // dragscroll directions
 enum dragscroll_dir { UNSET, UP, DOWN, LEFT, RIGHT };
 
@@ -97,7 +105,6 @@ typedef union {
 } charybdis_config_t;
 
 # define UNDO_BUFFER_SIZE 1
-# define ACTIVATION_DELAY 100
 
 static int16_t activation_timer = 0;
 
@@ -486,8 +493,6 @@ static void pointing_device_task_charybdis(report_mouse_t* mouse_report) {
 #define TRACKPOINT_MAX_SPEED (INT8_MAX / 2) 
 #define TRACKPOINT_MIN_SPEED (INT8_MIN / 2) 
 
-// ignore this many cycles when in trackpoint mode; this is helpful to slow down the cursor when the refresh rate is too high
-#define TRACKPOINT_REFRESH_INTERVAl 15;
 static int8_t trackpoint_refresh_counter = 0;
 
 report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
@@ -513,7 +518,7 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
                 mouse_report.y = 0;
             }
 
-            trackpoint_refresh_counter = (trackpoint_refresh_counter + 1) % TRACKPOINT_REFRESH_INTERVAl;
+            trackpoint_refresh_counter = (trackpoint_refresh_counter + 1) % TRACKPOINT_REFRESH_INTERVAL;
 
             //mouse_report.x = x * ((x / TRACKPOINT_MAX_SPEED) ^ 2) / 5;
             //mouse_report.y = y * ((y / TRACKPOINT_MAX_SPEED) ^ 2) / 5;
