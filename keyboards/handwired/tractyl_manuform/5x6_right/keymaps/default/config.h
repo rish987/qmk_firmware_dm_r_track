@@ -3,3 +3,5 @@
 
 // ignore this many cycles when in trackpoint mode; this is helpful to slow down the cursor when the refresh rate is too high
 #define TRACKPOINT_REFRESH_INTERVAL 15;
+
+#define TAPPING_TOGGLE 2
