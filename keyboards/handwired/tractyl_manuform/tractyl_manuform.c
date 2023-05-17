@@ -490,8 +490,8 @@ static void pointing_device_task_charybdis(report_mouse_t* mouse_report) {
 }
 }
 
-#define TRACKPOINT_MAX_SPEED (INT8_MAX / 2) 
-#define TRACKPOINT_MIN_SPEED (INT8_MIN / 2) 
+#define TRACKPOINT_MAX_SPEED (INT8_MAX / 2)
+#define TRACKPOINT_MIN_SPEED (INT8_MIN / 2)
 
 static int8_t trackpoint_refresh_counter = 0;
 
@@ -727,6 +727,30 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     }
 #    endif  // !MOUSEKEY_ENABLE
     return true;
+}
+
+static uint8_t last_layer = 0x00;
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    uint8_t layer = get_highest_layer(state);
+    uint8_t curr_mods = get_mods();
+    uint8_t new_mods = curr_mods;
+
+    if (layer == _NAVIG) {
+        new_mods |= MOD_BIT(KC_LCTL);
+        set_mods(new_mods);
+    }
+    else {
+        if (last_layer == _NAVIG) {
+            if (curr_mods & MOD_BIT(KC_LCTL)) {
+                new_mods &= ~MOD_BIT(KC_LCTL);
+                set_mods(new_mods);
+            }
+        }
+    }
+
+    last_layer = layer;
+  return state;
 }
 
 void eeconfig_init_kb(void) {

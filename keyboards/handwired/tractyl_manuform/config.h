@@ -40,3 +40,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define POINTING_DEVICE_ROTATION_270
 
 #define SPLIT_TRANSACTION_IDS_KB RPC_ID_KB_CONFIG_SYNC
+
+enum custom_layers {
+    _QWERTY,
+    _LOWER,
+    _RAISE,
+    _ARROW,
+    _NAVIG,
+};

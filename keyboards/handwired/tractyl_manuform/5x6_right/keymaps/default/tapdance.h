@@ -19,9 +19,21 @@
 #include "tractyl_manuform.h"
 
 // tapdance keycodes
-enum td_keycodes { ALT_TM, SFT_TM, CTL_TM, GUI_TM, RAI_TM, LOW_TM, ESC_TM };
+enum td_keycodes { ALT_TM, SFT_TM, CTL_TM, GUI_TM, RAI_TM, LOW_TM, ESC_TM, SALTENT, STABCTL };
+// define a type containing as many tapdance states as you need
+typedef enum {
+    TD_NONE,
+    UNKNOWN,
+    SINGLE_TAP,
+    SINGLE_HOLD,
+    DOUBLE_TAP,
+    DOUBLE_HOLD,
+    DOUBLE_SINGLE_TAP, // Send two single taps
+    TRIPLE_TAP,
+    TRIPLE_HOLD
+} td_state_t;
 // function to determine the current tapdance state
-int cur_dance(qk_tap_dance_state_t *state);
+td_state_t cur_dance(qk_tap_dance_state_t *state);
 //// `finished` and `reset` functions for each tapdance keycode
 void alttm_finished(qk_tap_dance_state_t *state, void *user_data);
 void alttm_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -37,6 +49,10 @@ void lowtm_finished(qk_tap_dance_state_t *state, void *user_data);
 void lowtm_reset(qk_tap_dance_state_t *state, void *user_data);
 void esctm_finished(qk_tap_dance_state_t *state, void *user_data);
 void esctm_reset(qk_tap_dance_state_t *state, void *user_data);
+void saltent_finished(qk_tap_dance_state_t *state, void *user_data);
+void saltent_reset(qk_tap_dance_state_t *state, void *user_data);
+void stabctl_finished(qk_tap_dance_state_t *state, void *user_data);
+void stabctl_reset(qk_tap_dance_state_t *state, void *user_data);
 
 /***************************
  * Custom Keycodes and Layers

@@ -59,31 +59,30 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [RAI_TM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, raitm_finished, raitm_reset),
   [LOW_TM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lowtm_finished, lowtm_reset),
   [ESC_TM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, esctm_finished, esctm_reset),
+  [SALTENT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, saltent_finished, saltent_reset),
+  [STABCTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, stabctl_finished, stabctl_reset),
 };
-
-// define a type containing as many tapdance states as you need
-typedef enum { SINGLE_TAP, SINGLE_HOLD } td_state_t;
 
 // create a global instance of the tapdance state type
 static td_state_t td_state;
 
-// function to determine the current tapdance state
-int cur_dance(qk_tap_dance_state_t *state);
-
 // determine the tapdance state to return
-int cur_dance(qk_tap_dance_state_t *state) {
-  if (state->count == 1) {
-    // if (state->interrupted || !state->pressed) { return SINGLE_TAP; }
-    // //interrupted sends SINGLE_TAP
-    if (!state->pressed) {
-      return SINGLE_TAP;
-    } // interrupted sends SINGLE_HOLD
-    else {
-      return SINGLE_HOLD;
+td_state_t cur_dance(qk_tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (!state->pressed) return SINGLE_TAP;
+        return SINGLE_HOLD;
+    } else if (state->count == 2) {
+        if (!state->pressed) return DOUBLE_TAP;
+        return DOUBLE_HOLD;
     }
-  } else {
-    return 2;
-  } // any number higher than the maximum state value you return above
+
+    // Assumes no one is trying to type the same letter three times (at least not quickly).
+    // If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
+    // an exception here to return a 'TRIPLE_SINGLE_TAP', and define that enum just like 'DOUBLE_SINGLE_TAP'
+    if (state->count == 3) {
+        if (!state->pressed) return TRIPLE_TAP;
+        else return TRIPLE_HOLD;
+    } else return UNKNOWN;
 }
 
 void unstick_keys(void) {
@@ -158,6 +157,7 @@ void alttm_finished(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     activate_stkeys();
+  default: break;
   }
 }
 void alttm_reset(qk_tap_dance_state_t *state, void *user_data) {
@@ -166,6 +166,7 @@ void alttm_reset(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     unstick_keys();
+  default: break;
   }
 }
 void sfttm_finished(qk_tap_dance_state_t *state, void *user_data) {
@@ -178,6 +179,7 @@ void sfttm_finished(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     activate_stkeys();
+  default: break;
   }
 }
 void sfttm_reset(qk_tap_dance_state_t *state, void *user_data) {
@@ -186,6 +188,7 @@ void sfttm_reset(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     unstick_keys();
+  default: break;
   }
 }
 void ctltm_finished(qk_tap_dance_state_t *state, void *user_data) {
@@ -199,6 +202,7 @@ void ctltm_finished(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     activate_stkeys();
+  default: break;
   }
 }
 void ctltm_reset(qk_tap_dance_state_t *state, void *user_data) {
@@ -207,6 +211,7 @@ void ctltm_reset(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     unstick_keys();
+  default: break;
   }
 }
 void guitm_finished(qk_tap_dance_state_t *state, void *user_data) {
@@ -218,6 +223,7 @@ void guitm_finished(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     activate_stkeys();
+  default: break;
   }
 }
 void guitm_reset(qk_tap_dance_state_t *state, void *user_data) {
@@ -226,6 +232,7 @@ void guitm_reset(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     unstick_keys();
+  default: break;
   }
 }
 void raitm_finished(qk_tap_dance_state_t *state, void *user_data) {
@@ -239,6 +246,7 @@ void raitm_finished(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     activate_stkeys();
+  default: break;
   }
 }
 void raitm_reset(qk_tap_dance_state_t *state, void *user_data) {
@@ -247,6 +255,7 @@ void raitm_reset(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     unstick_keys();
+  default: break;
   }
 }
 void lowtm_finished(qk_tap_dance_state_t *state, void *user_data) {
@@ -262,6 +271,7 @@ void lowtm_finished(qk_tap_dance_state_t *state, void *user_data) {
     activate_stkeys();
     // prev_track_mode = track_mode;
     // track_mode = SND_BRIGHT_MODE;
+  default: break;
   }
 }
 void lowtm_reset(qk_tap_dance_state_t *state, void *user_data) {
@@ -271,6 +281,7 @@ void lowtm_reset(qk_tap_dance_state_t *state, void *user_data) {
   case SINGLE_HOLD:
     unstick_keys();
     // track_mode = prev_track_mode;
+  default: break;
   }
 }
 void esctm_finished(qk_tap_dance_state_t *state, void *user_data) {
@@ -283,6 +294,7 @@ void esctm_finished(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     break;
+  default: break;
   }
 }
 void esctm_reset(qk_tap_dance_state_t *state, void *user_data) {
@@ -291,5 +303,63 @@ void esctm_reset(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case SINGLE_HOLD:
     unstick_keys();
+  default: break;
   }
+}
+
+void saltent_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP: register_code(KC_ENT); break;
+        case DOUBLE_TAP: tap_code(KC_ENT); register_code(KC_ENT); break;
+        case SINGLE_HOLD: register_code(KC_LALT); break;
+        case DOUBLE_HOLD: register_code(KC_LALT); register_code(KC_LSFT); break;
+        default: break;
+    }
+}
+
+void saltent_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP: unregister_code(KC_ENT); break;
+        case DOUBLE_TAP: unregister_code(KC_ENT); break;
+        case SINGLE_HOLD: unregister_code(KC_LALT); break;
+        case DOUBLE_HOLD: unregister_code(KC_LALT); unregister_code(KC_LSFT); break;
+        default: break;
+    }
+    td_state = TD_NONE;
+}
+
+void stabctl_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP: register_code(KC_TAB); break;
+        case SINGLE_HOLD: register_code(KC_LSFT); break;
+        case DOUBLE_HOLD: register_code(KC_LCTL); register_code(KC_LSFT); break;
+        case TRIPLE_HOLD: register_code(KC_LCTL); register_code(KC_LALT); register_code(KC_LSFT); break;
+        default: if (!state->pressed){
+                     for (int i = 1; i < state->count; i++){
+                         tap_code(KC_TAB);
+                     }
+                     register_code(KC_TAB);
+                 }
+                 else {
+                    register_code(KC_LCTL); register_code(KC_LALT); register_code(KC_LSFT);
+                 };
+    }
+}
+
+void stabctl_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP: unregister_code(KC_TAB); break;
+        case SINGLE_HOLD: unregister_code(KC_LSFT); break;
+        case DOUBLE_HOLD: unregister_code(KC_LCTL); unregister_code(KC_LSFT); break;
+        case TRIPLE_HOLD: unregister_code(KC_LCTL); unregister_code(KC_LALT); unregister_code(KC_LSFT); break;
+        default: if (!state->pressed){
+                     unregister_code(KC_TAB);
+                 }
+                 else {
+                     unregister_code(KC_LCTL); unregister_code(KC_LALT); unregister_code(KC_LSFT);
+                 };
+    }
+    td_state = TD_NONE;
 }
