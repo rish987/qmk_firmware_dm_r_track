@@ -18,9 +18,10 @@
 #include "tapdance.h"
 
 // if you use TT instead of MO, these will temporarily shift to the mode when held, and switch to the mode when double-tapped
-#define RAISE MO(_RAISE)
-#define LOWER MO(_LOWER)
 #define ARROW MO(_ARROW)
+
+#define RAISE LT(_RAISE, KC_ESC)
+#define LOWER LT(_LOWER, KC_BSPC)
 
 #define ESCCTL  RCTL_T(KC_ESC)
 #define BSPCCTL  RCTL_T(KC_BSPC)
