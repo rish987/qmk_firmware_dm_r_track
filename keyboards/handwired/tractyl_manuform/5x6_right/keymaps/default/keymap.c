@@ -18,10 +18,9 @@
 #include "tapdance.h"
 
 // if you use TT instead of MO, these will temporarily shift to the mode when held, and switch to the mode when double-tapped
+#define RAISE MO(_RAISE)
+#define LOWER MO(_LOWER)
 #define ARROW MO(_ARROW)
-
-#define RAISE LT(_RAISE, KC_ESC)
-#define LOWER LT(_LOWER, KC_BSPC)
 
 #define ESCCTL  RCTL_T(KC_ESC)
 #define BSPCCTL  RCTL_T(KC_BSPC)
@@ -67,6 +66,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,_______,_______,_______,_______,                        KC_ESC ,KC_D   ,KC_U   ,_______,_______,
     _______,_______,_______,_______,                                _______,_______,_______,KC_LSFT,_______,
     _______,_______,_______,_______,_______,                                _______,_______
+  ),
+  [_I3] = LAYOUT_5x6_right(
+    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
+    KC_ESC ,_______,_______,_______,KC_BSPC,                                _______,_______
   ),
   //[_LAYER] = LAYOUT_5x6_right(
   //   _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,

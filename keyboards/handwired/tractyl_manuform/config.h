@@ -47,4 +47,5 @@ enum custom_layers {
     _RAISE,
     _ARROW,
     _NAVIG,
+    _I3,
 };
