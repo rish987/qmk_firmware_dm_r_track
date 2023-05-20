@@ -22,26 +22,27 @@
 #define LOWER MO(_LOWER)
 #define ARROW MO(_ARROW)
 
-#define ESCCTL  RCTL_T(KC_ESC)
-#define BSPCCTL  RCTL_T(KC_BSPC)
+#define ESCCTL   LCTL_T(KC_ESC)
+#define BSPCCTL  LCTL_T(KC_BSPC)
 
 #define SHFTTAB LSFT_T(KC_TAB)
 #define ALTENT LALT_T(KC_ENT)
 
-#define ESCCTLN LT(_NAVIG, KC_ESC)
+#define ESCCTLN LT(_RNAVIG, KC_ESC)
+#define BSPCTLN LT(_LNAVIG, KC_BSPC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_5x6_right(
      KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T  ,                         KC_Y   ,KC_U   ,KC_I   ,KC_O   , KC_P   ,
      KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G  ,                         KC_H   ,KC_J   ,KC_K   ,KC_L   , KC_N   ,
-     BSPCCTL,KC_X   ,KC_C   ,KC_V   ,                                TRKSWCH,KC_M   ,KC_B   ,KC_Z   , ESCCTLN,
+     BSPCTLN,KC_X   ,KC_C   ,KC_V   ,                                TRKSWCH,KC_M   ,KC_B   ,KC_Z   , ESCCTLN,
      RAISE  ,ARROW  ,KC_SPC ,_______,LOWER ,                                 TD(STABCTL),TD(SALTENT)
   ),
   [_LOWER] = LAYOUT_5x6_right(
      KC_EXLM,KC_AT  ,KC_HASH,KC_DLR ,KC_PERC,                        KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,
      KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        KC_6   ,KC_7   ,KC_8   ,KC_9   ,KC_0   ,
      _______,KC_LSFT,KC_PLUS,KC_EQL ,                                _______,_______,KC_COMM,KC_DOT ,_______,
-     _______,_______,_______,_______,_______,                                _______,KC_ENT
+     _______,_______,_______,_______,_______,                                TG(_NI3),_______
   ),
   [_RAISE] = LAYOUT_5x6_right(
      KC_QUES,KC_LBRC,KC_PLUS,KC_RBRC,KC_PIPE,                        KC_TILD,_______,KC_TAB  ,_______,KC_COLN,
@@ -61,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______,KC_LSFT,_______,_______,                                _______,KC_TAB ,KC_F11 ,KC_F12 ,_______,
      _______,_______,_______,_______,_______,                                KC_RGUI,_______
   ),
-  [_NAVIG] = LAYOUT_5x6_right(
+  [_RNAVIG] = LAYOUT_5x6_right(
     _______,_______,_______,_______,_______,                        _______,KC_J   ,KC_K   ,_______,_______,
     _______,_______,_______,_______,_______,                        KC_ESC ,KC_D   ,KC_U   ,_______,_______,
     _______,_______,_______,_______,                                _______,_______,_______,KC_LSFT,_______,
@@ -72,6 +73,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
     _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
     KC_ESC ,_______,_______,_______,KC_BSPC,                                _______,_______
+
+  ),
+  [_NI3] = LAYOUT_5x6_right(
+    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,                                TD(TABCTL),TD(ALTENT)
+  ),
+  [_LNAVIG] = LAYOUT_5x6_right(
+    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,                                _______,_______
   ),
   //[_LAYER] = LAYOUT_5x6_right(
   //   _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,

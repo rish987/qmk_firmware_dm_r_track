@@ -61,6 +61,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [ESC_TM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, esctm_finished, esctm_reset),
   [SALTENT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, saltent_finished, saltent_reset),
   [STABCTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, stabctl_finished, stabctl_reset),
+  [ALTENT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, altent_finished, altent_reset),
+  [TABCTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, tabctl_finished, tabctl_reset),
 };
 
 // create a global instance of the tapdance state type
@@ -369,4 +371,28 @@ void stabctl_reset(qk_tap_dance_state_t *state, void *user_data) {
                  };
     }
     td_state = TD_NONE;
+}
+
+void altent_finished(qk_tap_dance_state_t *state, void *user_data) {
+    set_nested_i3(true);
+    register_code(KC_LCTL);
+    saltent_finished(state, user_data);
+}
+
+void altent_reset(qk_tap_dance_state_t *state, void *user_data) {
+    set_nested_i3(false);
+    unregister_code(KC_LCTL);
+    saltent_reset(state, user_data);
+}
+
+void tabctl_finished(qk_tap_dance_state_t *state, void *user_data) {
+    set_nested_i3(true);
+    register_code(KC_LCTL);
+    stabctl_finished(state, user_data);
+}
+
+void tabctl_reset(qk_tap_dance_state_t *state, void *user_data) {
+    set_nested_i3(false);
+    unregister_code(KC_LCTL);
+    stabctl_reset(state, user_data);
 }

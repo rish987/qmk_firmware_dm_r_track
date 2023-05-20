@@ -199,3 +199,6 @@ void charybdis_set_pointer_disable_nonstacking(void);
 
 void matrix_init_sub_kb(void);
 void matrix_scan_sub_kb(void);
+
+bool nested_i3(void);
+void set_nested_i3(bool);

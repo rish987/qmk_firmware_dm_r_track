@@ -731,17 +731,27 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
 
 static uint8_t last_layer = 0x00;
 
+static bool _nested_i3 = false;
+
+bool nested_i3() {
+    return _nested_i3;
+}
+
+void set_nested_i3(bool new) {
+    _nested_i3 = new;
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t layer = get_highest_layer(state);
     uint8_t curr_mods = get_mods();
     uint8_t new_mods = curr_mods;
 
-    if (layer == _NAVIG) {
+    if (layer == _RNAVIG || layer == _LNAVIG) {
         new_mods |= MOD_BIT(KC_LCTL);
         set_mods(new_mods);
     }
     else {
-        if (last_layer == _NAVIG) {
+        if ((last_layer == _RNAVIG || last_layer == _LNAVIG) && !_nested_i3) {
             if (curr_mods & MOD_BIT(KC_LCTL)) {
                 new_mods &= ~MOD_BIT(KC_LCTL);
                 set_mods(new_mods);

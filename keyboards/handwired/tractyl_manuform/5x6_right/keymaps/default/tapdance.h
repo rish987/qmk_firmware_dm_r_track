@@ -19,7 +19,7 @@
 #include "tractyl_manuform.h"
 
 // tapdance keycodes
-enum td_keycodes { ALT_TM, SFT_TM, CTL_TM, GUI_TM, RAI_TM, LOW_TM, ESC_TM, SALTENT, STABCTL };
+enum td_keycodes { ALT_TM, SFT_TM, CTL_TM, GUI_TM, RAI_TM, LOW_TM, ESC_TM, SALTENT, STABCTL, ALTENT, TABCTL };
 // define a type containing as many tapdance states as you need
 typedef enum {
     TD_NONE,
@@ -53,6 +53,10 @@ void saltent_finished(qk_tap_dance_state_t *state, void *user_data);
 void saltent_reset(qk_tap_dance_state_t *state, void *user_data);
 void stabctl_finished(qk_tap_dance_state_t *state, void *user_data);
 void stabctl_reset(qk_tap_dance_state_t *state, void *user_data);
+void altent_finished(qk_tap_dance_state_t *state, void *user_data);
+void altent_reset(qk_tap_dance_state_t *state, void *user_data);
+void tabctl_finished(qk_tap_dance_state_t *state, void *user_data);
+void tabctl_reset(qk_tap_dance_state_t *state, void *user_data);
 
 /***************************
  * Custom Keycodes and Layers
