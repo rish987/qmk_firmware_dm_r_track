@@ -57,6 +57,8 @@ void altent_finished(qk_tap_dance_state_t *state, void *user_data);
 void altent_reset(qk_tap_dance_state_t *state, void *user_data);
 void tabctl_finished(qk_tap_dance_state_t *state, void *user_data);
 void tabctl_reset(qk_tap_dance_state_t *state, void *user_data);
+void bspctln_finished(qk_tap_dance_state_t *state, void *user_data);
+void bspctln_reset(qk_tap_dance_state_t *state, void *user_data);
 
 /***************************
  * Custom Keycodes and Layers

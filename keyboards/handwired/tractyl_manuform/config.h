@@ -44,6 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum custom_layers {
     _QWERTY,
     _NI3,
+    _NI3PRE,
     _LOWER,
     _RAISE,
     _ARROW,

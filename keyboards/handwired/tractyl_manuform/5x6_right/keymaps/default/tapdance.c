@@ -314,6 +314,7 @@ void saltent_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP: register_code(KC_ENT); break;
         case SINGLE_HOLD: register_code(KC_LALT); register_code(KC_LSFT); break;
+        case DOUBLE_HOLD: register_code(KC_LCTL); register_code(KC_LSFT); break;
         default: if (!state->pressed){
                      for (int i = 1; i < state->count; i++){
                          tap_code(KC_ENT);
@@ -330,6 +331,7 @@ void saltent_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP: unregister_code(KC_ENT); break;
         case SINGLE_HOLD: unregister_code(KC_LALT); unregister_code(KC_LSFT); break;
+        case DOUBLE_HOLD: unregister_code(KC_LCTL); unregister_code(KC_LSFT); break;
         default: if (!state->pressed){
                         unregister_code(KC_ENT);
                  }
@@ -396,3 +398,47 @@ void tabctl_reset(qk_tap_dance_state_t *state, void *user_data) {
     unregister_code(KC_LCTL);
     stabctl_reset(state, user_data);
 }
+//
+// void bspctln_finished(qk_tap_dance_state_t *state, void *user_data) {
+//   td_state = cur_dance(state);
+//   switch (td_state) {
+//   case SINGLE_TAP:
+//     register_code(KC_BSPC);
+//     break;
+//   case SINGLE_HOLD:
+//     layer_on(_LNAVIG);
+//     break;
+//   case DOUBLE_HOLD:
+//     register_code(KC_LCTL); register_code(KC_LSFT);
+//     break;
+//   default: if (!state->pressed){
+//                for (int i = 1; i < state->count; i++){
+//                    tap_code(KC_BSPC);
+//                }
+//                register_code(KC_BSPC);
+//            }
+//            else {
+//               register_code(KC_LCTL); register_code(KC_LSFT);
+//            };
+//   }
+// }
+//
+// void bspctln_reset(qk_tap_dance_state_t *state, void *user_data) {
+//   switch (td_state) {
+//   case SINGLE_TAP:
+//     unregister_code(KC_BSPC);
+//     break;
+//   case SINGLE_HOLD:
+//     layer_off(_LNAVIG);
+//     break;
+//   case DOUBLE_HOLD:
+//     unregister_code(KC_LCTL); unregister_code(KC_LSFT);
+//     break;
+//   default: if (!state->pressed){
+//              unregister_code(KC_BSPC);
+//            }
+//            else {
+//              unregister_code(KC_LCTL); unregister_code(KC_LSFT);
+//            };
+//   }
+// }

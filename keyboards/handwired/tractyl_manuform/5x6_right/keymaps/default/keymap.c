@@ -26,29 +26,29 @@
 #define BSPCCTL  LCTL_T(KC_BSPC)
 
 #define SHFTTAB LSFT_T(KC_TAB)
-#define ALTENT LALT_T(KC_ENT)
 
 #define ESCCTLN LT(_RNAVIG, KC_ESC)
 #define BSPCTLN LT(_LNAVIG, KC_BSPC)
+#define SPCNI3 LT(_NI3PRE, KC_SPC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_5x6_right(
      KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T  ,                         KC_Y   ,KC_U   ,KC_I   ,KC_O   , KC_P   ,
      KC_A   ,KC_S   ,KC_D   ,KC_F   ,KC_G  ,                         KC_H   ,KC_J   ,KC_K   ,KC_L   , KC_N   ,
      BSPCTLN,KC_X   ,KC_C   ,KC_V   ,                                TRKSWCH,KC_M   ,KC_B   ,KC_Z   , ESCCTLN,
-     RAISE  ,ARROW  ,KC_SPC ,_______,LOWER ,                                 TD(STABCTL),TD(SALTENT)
+     RAISE  ,ARROW  ,SPCNI3 ,_______,LOWER ,                                 TD(STABCTL),TD(SALTENT)
   ),
   [_LOWER] = LAYOUT_5x6_right(
      KC_EXLM,KC_AT  ,KC_HASH,KC_DLR ,KC_PERC,                        KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,
      KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        KC_6   ,KC_7   ,KC_8   ,KC_9   ,KC_0   ,
      _______,KC_LSFT,KC_PLUS,KC_EQL ,                                _______,_______,KC_COMM,KC_DOT ,_______,
-     _______,_______,_______,_______,_______,                                TG(_NI3),_______
+     _______,_______,_______,_______,_______,                                _______,_______
   ),
   [_RAISE] = LAYOUT_5x6_right(
      KC_QUES,KC_LBRC,KC_PLUS,KC_RBRC,KC_PIPE,                        KC_TILD,_______,KC_TAB  ,_______,KC_COLN,
      KC_SLSH,KC_LCBR,KC_UNDS,KC_RCBR,KC_BSLS,                        KC_GRV ,KC_QUOT,KC_COMM ,KC_DOT ,KC_SCLN,
      _______,KC_LSFT,KC_MINS,KC_EQL ,                                _______,KC_DQT ,KC_LT   ,KC_GT  ,_______,
-     _______,_______,_______,_______,_______,                                _______,_______
+    _______,_______,_______,_______,_______,                                TD(TABCTL),TD(ALTENT)
   ),
   [_MOUSE] = LAYOUT_5x6_right(
      _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
@@ -72,8 +72,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
     _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
     _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
-    KC_ESC ,_______,_______,_______,KC_BSPC,                                _______,_______
+    KC_ESC ,KC_TAB ,_______,_______,KC_BSPC,                                _______,_______
 
+  ),
+  [_NI3PRE] = LAYOUT_5x6_right(
+    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+    _______,_______,_______,_______,                                _______,_______,_______,_______,TG(_NI3),
+    _______,_______,_______,_______,_______,                                TD(TABCTL),TD(ALTENT)
   ),
   [_NI3] = LAYOUT_5x6_right(
     _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
