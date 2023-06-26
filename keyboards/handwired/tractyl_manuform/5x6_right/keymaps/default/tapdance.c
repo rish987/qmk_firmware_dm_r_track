@@ -313,7 +313,7 @@ void saltent_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case SINGLE_TAP: register_code(KC_ENT); break;
-        case SINGLE_HOLD: register_code(KC_LALT); register_code(KC_LSFT); break;
+        case SINGLE_HOLD: register_code(KC_LALT); break;
         case DOUBLE_HOLD: register_code(KC_LCTL); register_code(KC_LSFT); break;
         default: if (!state->pressed){
                      for (int i = 1; i < state->count; i++){
@@ -330,7 +330,7 @@ void saltent_finished(qk_tap_dance_state_t *state, void *user_data) {
 void saltent_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP: unregister_code(KC_ENT); break;
-        case SINGLE_HOLD: unregister_code(KC_LALT); unregister_code(KC_LSFT); break;
+        case SINGLE_HOLD: unregister_code(KC_LALT); break;
         case DOUBLE_HOLD: unregister_code(KC_LCTL); unregister_code(KC_LSFT); break;
         default: if (!state->pressed){
                         unregister_code(KC_ENT);
@@ -347,7 +347,7 @@ void stabctl_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP: register_code(KC_TAB); break;
         case SINGLE_HOLD: layer_on(_I3); register_code(KC_LSFT); break;
-        case DOUBLE_HOLD: register_code(KC_LALT); break;
+        case DOUBLE_HOLD: register_code(KC_LALT); register_code(KC_LSFT); break;
         default: if (!state->pressed){
                      for (int i = 1; i < state->count; i++){
                          tap_code(KC_TAB);
@@ -364,7 +364,7 @@ void stabctl_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP: unregister_code(KC_TAB); break;
         case SINGLE_HOLD: layer_off(_I3); unregister_code(KC_LSFT); break;
-        case DOUBLE_HOLD: unregister_code(KC_LALT); break;
+        case DOUBLE_HOLD: unregister_code(KC_LALT); unregister_code(KC_LSFT); break;
         default: if (!state->pressed){
                      unregister_code(KC_TAB);
                  }
