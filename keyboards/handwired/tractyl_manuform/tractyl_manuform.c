@@ -26,11 +26,11 @@
 
 #ifdef POINTING_DEVICE_ENABLE
 #    ifndef CHARYBDIS_MINIMUM_DEFAULT_DPI
-#        define CHARYBDIS_MINIMUM_DEFAULT_DPI 400
+#        define CHARYBDIS_MINIMUM_DEFAULT_DPI 20
 #    endif  // CHARYBDIS_MINIMUM_DEFAULT_DPI
 
 #    ifndef CHARYBDIS_DEFAULT_DPI_CONFIG_STEP
-#        define CHARYBDIS_DEFAULT_DPI_CONFIG_STEP 200
+#        define CHARYBDIS_DEFAULT_DPI_CONFIG_STEP 0
 #    endif  // CHARYBDIS_DEFAULT_DPI_CONFIG_STEP
 
 #    ifndef CHARYBDIS_MINIMUM_SNIPING_DPI
@@ -147,7 +147,7 @@ static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
 static void write_charybdis_config_to_eeprom(charybdis_config_t* config) { eeconfig_update_kb(config->raw); }
 
 /** \brief Return the current value of the pointer's default DPI. */
-static uint16_t get_pointer_default_dpi(charybdis_config_t* config) { return (uint16_t)config->pointer_default_dpi * CHARYBDIS_DEFAULT_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_DEFAULT_DPI; }
+static uint16_t get_pointer_default_dpi(charybdis_config_t* config) { return 4 * CHARYBDIS_DEFAULT_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_DEFAULT_DPI; }
 
 /** \brief Return the current value of the pointer's sniper-mode DPI. */
 static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) { return (uint16_t)config->pointer_sniping_dpi * CHARYBDIS_SNIPING_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_SNIPING_DPI; }
@@ -594,12 +594,36 @@ __attribute__((unused)) static void debug_charybdis_config_to_console(charybdis_
 #    endif  // CONSOLE_ENABLE
 }
 
+static bool _shfttab_tab = false;
+
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     if (!process_record_user(keycode, record)) {
         return false;
     }
+    if (keycode != SHFTTAB && _shfttab_tab) {
+        _shfttab_tab = false;
+    }
 #    ifndef NO_CHARYBDIS_KEYCODES
     switch (keycode) {
+        case MFKEY:
+            if (record->event.pressed && IS_LAYER_ON(_I3)) {
+                set_mfkey(); unregister_code(KC_LSFT); register_code(KC_LCTL); tap_code(KC_Q); unregister_code(KC_LCTL); register_code(KC_LSFT);
+            }
+            break;
+        case SHFTTAB:
+            if (record->event.pressed) {
+                register_code(KC_LSFT); layer_on(_I3);
+                _shfttab_tab = true;
+            }
+            else {
+                unregister_code(KC_LSFT); layer_off(_I3);
+                if (mfkey() || _shfttab_tab) {
+                    tap_code(KC_TAB);
+                }
+                _shfttab_tab = false;
+                unset_mfkey();
+            }
+            break;
         case POINTER_DEFAULT_DPI_FORWARD:
             if (record->event.pressed) {
                 // Step backward if shifted, forward otherwise.
@@ -729,38 +753,17 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return true;
 }
 
-static uint8_t last_layer = 0x00;
+static bool _mfkey = false;
 
-static bool _nested_i3 = false;
-
-bool nested_i3() {
-    return _nested_i3;
+bool mfkey() {
+    return _mfkey;
 }
 
-void set_nested_i3(bool new) {
-    _nested_i3 = new;
+void set_mfkey() {
+    _mfkey = true;
 }
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-    uint8_t layer = get_highest_layer(state);
-    uint8_t curr_mods = get_mods();
-    uint8_t new_mods = curr_mods;
-
-    if (layer == _RNAVIG || layer == _LNAVIG) {
-        new_mods |= MOD_BIT(KC_LCTL);
-        set_mods(new_mods);
-    }
-    else {
-        if ((last_layer == _RNAVIG || last_layer == _LNAVIG) && !_nested_i3) {
-            if (curr_mods & MOD_BIT(KC_LCTL)) {
-                new_mods &= ~MOD_BIT(KC_LCTL);
-                set_mods(new_mods);
-            }
-        }
-    }
-
-    last_layer = layer;
-  return state;
+void unset_mfkey() {
+    _mfkey = false;
 }
 
 void eeconfig_init_kb(void) {

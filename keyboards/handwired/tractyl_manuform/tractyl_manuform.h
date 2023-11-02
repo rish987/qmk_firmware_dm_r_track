@@ -35,6 +35,8 @@ enum charybdis_keycodes {
     POINTER_DEFAULT_DPI_FORWARD = SAFE_RANGE,
 #        endif  // VIA_ENABLE
     TRACKSWITCH,
+    SHIFTTAB,
+    MFKEY,
     MOUSE_LOCK,
     TRACKPOINT_MODE,
     POINTER_DEFAULT_DPI_REVERSE,
@@ -57,6 +59,7 @@ enum charybdis_keycodes {
 #        define CHARYBDIS_SAFE_RANGE KEYMAP_SAFE_RANGE
 #        define DPI_MOD POINTER_DEFAULT_DPI_FORWARD
 #        define TRKSWCH TRACKSWITCH
+#        define SHFTTAB SHIFTTAB
 #        define DPI_RMOD POINTER_DEFAULT_DPI_REVERSE
 #        define S_D_MOD POINTER_SNIPING_DPI_FORWARD
 #        define S_D_RMOD POINTER_SNIPING_DPI_REVERSE
@@ -200,5 +203,6 @@ void charybdis_set_pointer_disable_nonstacking(void);
 void matrix_init_sub_kb(void);
 void matrix_scan_sub_kb(void);
 
-bool nested_i3(void);
-void set_nested_i3(bool);
+bool mfkey(void);
+void set_mfkey(void);
+void unset_mfkey(void);

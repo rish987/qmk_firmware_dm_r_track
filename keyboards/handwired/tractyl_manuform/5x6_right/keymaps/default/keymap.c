@@ -25,30 +25,24 @@
 #define ESCCTL   LCTL_T(KC_ESC)
 #define BSPCCTL  LCTL_T(KC_BSPC)
 
-#define SHFTTAB LSFT_T(KC_TAB)
-
-#define ESCCTLN LT(_RNAVIG, KC_ESC)
-#define BSPCTLN LT(_LNAVIG, KC_BSPC)
-#define SPCNI3 LT(_NI3PRE, KC_SPC)
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_5x6_right(
-     KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T  ,                         KC_Y   ,KC_U   ,KC_I   ,KC_O   , KC_P   ,
-     BSPCCTL,KC_S   ,KC_D   ,KC_F   ,KC_G  ,                         KC_H   ,KC_J   ,KC_K   ,KC_L   , ESCCTL ,
-     KC_Z   ,KC_A   ,KC_C   ,KC_V   ,                                TRKSWCH,KC_M   ,KC_B   ,KC_N   , KC_X   ,
-     RAISE  ,ARROW  ,SPCNI3 ,_______,LOWER ,                                 TD(STABCTL),TD(SALTENT)
+     KC_Q   ,KC_W   ,KC_E   ,KC_R   ,KC_T   ,                         KC_Y   ,KC_U   ,KC_I   ,KC_O   , KC_P   ,
+     BSPCCTL,KC_S   ,KC_D   ,KC_F   ,KC_G   ,                         KC_H   ,KC_J   ,KC_K   ,KC_L   , ESCCTL ,
+     KC_Z   ,KC_A   ,KC_C   ,KC_V   ,                                 TRKSWCH,KC_M   ,KC_B   ,KC_N   , KC_X   ,
+     RAISE  ,ARROW  ,KC_SPC ,_______,LOWER  ,                                 SHFTTAB,TD(SALTENT)
   ),
   [_LOWER] = LAYOUT_5x6_right(
      KC_EXLM,KC_AT  ,KC_HASH,KC_DLR ,KC_PERC,                        KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,
      KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        KC_6   ,KC_7   ,KC_8   ,KC_9   ,KC_0   ,
      _______,KC_LSFT,KC_PLUS,KC_EQL ,                                _______,_______,KC_COMM,KC_DOT ,_______,
-     _______,_______,_______,_______,_______,                                _______,_______
+     _______,_______,_______,_______,_______,                                KC_RGHT,KC_LEFT
   ),
   [_RAISE] = LAYOUT_5x6_right(
-     KC_QUES,KC_LBRC,KC_PLUS,KC_RBRC,KC_PIPE,                        KC_TILD,_______,KC_TAB  ,_______,KC_COLN,
-     KC_SLSH,KC_LCBR,KC_UNDS,KC_RCBR,KC_BSLS,                        KC_GRV ,KC_QUOT,KC_COMM ,KC_DOT ,KC_SCLN,
-     _______,KC_LSFT,KC_MINS,KC_EQL ,                                _______,KC_DQT ,KC_LT   ,KC_GT  ,_______,
-    _______,_______,_______,_______,_______,                                TD(TABCTL),TD(ALTENT)
+     KC_QUES,KC_LBRC,KC_PLUS,KC_RBRC,KC_PIPE,                        KC_TILD,_______,KC_TAB ,_______,KC_COLN,
+     KC_SLSH,KC_LCBR,KC_UNDS,KC_RCBR,KC_BSLS,                        KC_GRV ,KC_QUOT,KC_COMM,KC_DOT ,KC_SCLN,
+     _______,KC_LSFT,KC_MINS,KC_EQL ,                                _______,KC_DQT ,KC_LT  ,KC_GT  ,_______,
+     _______,_______,_______,_______,_______,                                _______,_______
   ),
   [_MOUSE] = LAYOUT_5x6_right(
      _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
@@ -62,36 +56,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______,KC_LSFT,_______,_______,                                _______,KC_TAB ,KC_F11 ,KC_F12 ,_______,
      _______,_______,_______,_______,_______,                                KC_RGUI,_______
   ),
-  [_RNAVIG] = LAYOUT_5x6_right(
-    _______,_______,_______,_______,_______,                        _______,KC_J   ,KC_K   ,_______,_______,
-    _______,_______,_______,_______,_______,                        KC_ESC ,KC_D   ,KC_U   ,_______,_______,
-    _______,_______,_______,_______,                                _______,_______,_______,KC_LSFT,_______,
-    _______,_______,_______,_______,_______,                                _______,_______
-  ),
   [_I3] = LAYOUT_5x6_right(
-    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
-    KC_BSPC,KC_TAB ,_______,_______,KC_ESC ,                                _______,_______
+     _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+     MFKEY  ,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
+     _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
+     KC_BSPC,KC_TAB ,_______,_______,KC_ESC ,                                _______,_______
 
-  ),
-  [_NI3PRE] = LAYOUT_5x6_right(
-    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,                                _______,_______,_______,_______,TG(_NI3),
-    _______,_______,_______,_______,_______,                                TD(TABCTL),TD(ALTENT)
-  ),
-  [_NI3] = LAYOUT_5x6_right(
-    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,_______,                                TD(TABCTL),TD(ALTENT)
-  ),
-  [_LNAVIG] = LAYOUT_5x6_right(
-    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,                                _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,_______,                                _______,_______
   ),
   //[_LAYER] = LAYOUT_5x6_right(
   //   _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
