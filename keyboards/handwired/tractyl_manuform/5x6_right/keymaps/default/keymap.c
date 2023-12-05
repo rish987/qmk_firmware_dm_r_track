@@ -42,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_QUES,KC_LBRC,KC_PLUS,KC_RBRC,KC_PIPE,                        KC_TILD,_______,KC_TAB ,_______,KC_COLN,
      KC_SLSH,KC_LCBR,KC_UNDS,KC_RCBR,KC_BSLS,                        KC_GRV ,KC_QUOT,KC_COMM,KC_DOT ,KC_SCLN,
      _______,KC_LSFT,KC_MINS,KC_EQL ,                                _______,KC_DQT ,KC_LT  ,KC_GT  ,_______,
-     _______,_______,_______,_______,_______,                                _______,_______
+     _______,_______,_______,_______,_______,                                KC_DOWN,KC_UP
   ),
   [_MOUSE] = LAYOUT_5x6_right(
      _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,

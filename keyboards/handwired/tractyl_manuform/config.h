@@ -41,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define SPLIT_TRANSACTION_IDS_KB RPC_ID_KB_CONFIG_SYNC
 
+#ifndef __ASSEMBLER__
 enum custom_layers {
     _QWERTY,
     _NI3,
@@ -52,3 +53,4 @@ enum custom_layers {
     _RNAVIG,
     _I3,
 };
+#endif  //__ASSEMBLER__
