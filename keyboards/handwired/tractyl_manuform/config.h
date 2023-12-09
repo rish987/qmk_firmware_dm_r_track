@@ -48,6 +48,7 @@ enum custom_layers {
     _NI3PRE,
     _LOWER,
     _RAISE,
+    _MEDIA,
     _ARROW,
     _LNAVIG,
     _RNAVIG,
