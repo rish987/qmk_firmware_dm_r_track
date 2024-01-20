@@ -597,6 +597,7 @@ __attribute__((unused)) static void debug_charybdis_config_to_console(charybdis_
 static bool _shfttab_tab = false;
 
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
+    static uint32_t           tab_timer             = 0;
     if (!process_record_user(keycode, record)) {
         return false;
     }
@@ -614,10 +615,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             if (record->event.pressed) {
                 register_code(KC_LSFT); layer_on(_I3);
                 _shfttab_tab = true;
+                tab_timer = timer_read32();
             }
             else {
                 unregister_code(KC_LSFT); layer_off(_I3);
-                if (mfkey() || _shfttab_tab) {
+                if (mfkey() || (_shfttab_tab && timer_elapsed32(tab_timer) < 200)) {
                     tap_code(KC_TAB);
                 }
                 _shfttab_tab = false;
