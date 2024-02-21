@@ -94,6 +94,7 @@ typedef union {
         uint8_t pointer_sniping_dpi : 2;  // 4 steps available.
         enum dragscroll_dir drag_dir;
 		bool    is_enabled : 1;
+		bool    is_mouselock : 1;
 		bool    is_trackpoint_enabled : 1;
         bool    is_dragscroll_enabled : 1;
         bool    is_sniping_enabled : 1;
@@ -107,11 +108,6 @@ typedef union {
 # define UNDO_BUFFER_SIZE 1
 
 static int16_t activation_timer = 0;
-
-static bool undoing;
-static int8_t undo_buffer_x[UNDO_BUFFER_SIZE] = {0};
-static int8_t undo_buffer_y[UNDO_BUFFER_SIZE] = {0};
-static uint16_t undo_buffer_pos;
 
 static int16_t trackpoint_buffer_x = 0;
 static int16_t trackpoint_buffer_y = 0;
@@ -187,6 +183,11 @@ static void step_pointer_sniping_dpi(charybdis_config_t* config, bool forward) {
 
 void charybdis_set_enabled(bool enable) {
     g_charybdis_config.is_enabled = enable;
+    maybe_update_pointing_device_cpi(&g_charybdis_config);
+}
+
+void charybdis_set_mouselock(bool mouselock) {
+    g_charybdis_config.is_mouselock = mouselock;
     maybe_update_pointing_device_cpi(&g_charybdis_config);
 }
 
@@ -496,7 +497,7 @@ static void pointing_device_task_charybdis(report_mouse_t* mouse_report) {
 static int8_t trackpoint_refresh_counter = 0;
 
 report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
-    if (g_charybdis_config.is_enabled && activation_timer == ACTIVATION_DELAY) {
+    if (g_charybdis_config.is_enabled && activation_timer == ACTIVATION_DELAY && !g_charybdis_config.is_mouselock) {
         pointing_device_task_charybdis(&mouse_report);
         mouse_report = pointing_device_task_user(mouse_report);
 
@@ -523,24 +524,13 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
             //mouse_report.x = x * ((x / TRACKPOINT_MAX_SPEED) ^ 2) / 5;
             //mouse_report.y = y * ((y / TRACKPOINT_MAX_SPEED) ^ 2) / 5;
         }
-
-        undo_buffer_x[undo_buffer_pos] = mouse_report.x;
-        undo_buffer_y[undo_buffer_pos] = mouse_report.y;
-
-        undo_buffer_pos = (undo_buffer_pos + 1) % UNDO_BUFFER_SIZE;
     }
     else {
-        if (g_charybdis_config.is_enabled) {
+        if (g_charybdis_config.is_enabled && !g_charybdis_config.is_mouselock) {
             activation_timer++;
 
             mouse_report.x = 0;
             mouse_report.y = 0;
-        }
-        else if (undoing) {
-            mouse_report.x = -undo_buffer_x[undo_buffer_pos];
-            mouse_report.y = -undo_buffer_y[undo_buffer_pos];
-            if (undo_buffer_pos == 0) undoing = false;
-            else undo_buffer_pos--;
         }
         else {
             mouse_report.x = 0;
@@ -636,18 +626,12 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             if (record->event.pressed) {
                 // enable when pressed
                 charybdis_set_enabled(true);
-                undoing = false;
-                undo_buffer_pos = 0;
-                memset(undo_buffer_x, 0, sizeof(undo_buffer_x));
-                memset(undo_buffer_y, 0, sizeof(undo_buffer_y));
                 activation_timer = 0;
                 layer_on(_MOUSE);
             }
             else {
                 // disable when released
                 charybdis_set_enabled(false);
-                undoing = true;
-                undo_buffer_pos = UNDO_BUFFER_SIZE - 1;
                 layer_off(_MOUSE);
             }
             break;
@@ -666,11 +650,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         case MOUSE_LOCK:
             if (record->event.pressed) {
                 // disable when pressed
-                charybdis_set_enabled(false);
+                charybdis_set_mouselock(true);
             }
             else {
                 // enable when released
-                charybdis_set_enabled(true);
+                charybdis_set_mouselock(false);
             }
             break;
         case POINTER_DEFAULT_DPI_REVERSE:
