@@ -22,6 +22,7 @@
 #define LOWER MO(_LOWER)
 #define ARROW MO(_ARROW)
 #define MEDIA TG(_MEDIA)
+#define ARRTG TG(_ARROW)
 
 #define ESCCTL   LCTL_T(KC_ESC)
 #define BSPCCTL  LCTL_T(KC_BSPC)
@@ -36,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LOWER] = LAYOUT_5x6_right(
      KC_EXLM,KC_AT  ,KC_HASH,KC_DLR ,KC_PERC,                        KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,
      KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        KC_6   ,KC_7   ,KC_8   ,KC_9   ,KC_0   ,
-     _______,KC_LSFT,KC_PLUS,KC_EQL ,                                _______,_______,KC_COMM,KC_DOT ,MEDIA  ,
+     _______,KC_LSFT,KC_PLUS,KC_EQL ,                                _______,ARRTG  ,KC_COMM,KC_DOT ,MEDIA  ,
      _______,_______,_______,_______,_______,                                KC_RGHT,KC_LEFT
   ),
   [_RAISE] = LAYOUT_5x6_right(
@@ -47,19 +48,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_MEDIA] = LAYOUT_5x6_right(
     _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-    _______,_______,_______,_______,_______,                        _______,KC_LEFT,KC_SPC ,KC_RGHT,_______,
+    _______,_______,_______,_______,_______,                        _______,KC_LEFT,KC_SPC ,KC_RGHT,MEDIA  ,
     _______,_______,_______,_______,                                _______,_______,_______,_______,MEDIA  ,
     _______,_______,_______,_______,_______,                                _______,_______
   ),
   [_MOUSE] = LAYOUT_5x6_right(
      _______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,
-     _______,_______,_______,_______,_______,                        _______,KC_BTN2,MLOCK  ,KC_BTN3,_______,
+     _______,DRGSCRL,MLOCK  ,TRKPNT ,SNIPING,                        _______,KC_BTN2,MLOCK  ,KC_BTN3,_______,
      _______,KC_LSFT,_______,_______,                                _______,KC_BTN1,SNIPING,DRGSCRL,TRKPNT ,
-     _______,_______,_______,_______,_______,                                _______,_______
+     _______,_______,KC_BTN1,_______,KC_BTN2,                                _______,_______
   ),
   [_ARROW] = LAYOUT_5x6_right(
      KC_F1  ,KC_F2  ,KC_F3  ,KC_F4  ,KC_F5  ,                        KC_F6  ,KC_F7  ,KC_F8  ,KC_F9  ,KC_F10 ,
-     _______,_______,_______,_______,_______,                        KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,
+     _______,_______,_______,_______,_______,                        KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,ARRTG  ,
      _______,KC_LSFT,_______,_______,                                _______,KC_TAB ,KC_F11 ,KC_F12 ,KC_RGUI,
      _______,_______,_______,_______,_______,                                LSFT(KC_TAB),LSFT(KC_ENT)
   ),
